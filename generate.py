@@ -3,8 +3,9 @@ from bs4 import BeautifulSoup as BS
 from template import template
 import json
 import imgheuristics
-from util import create_relative_path, clear_dir
+from util import create_relative_path, clear_dir, ensure_clear_dir
 from create_sections import create_sections
+from create_detail_pages import create_detail_pages
 
 def lorem_ipsum():
     return "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam cursus tortor eu metus auctor gravida. Sed ligula nulla, viverra et lectus vel, aliquet commodo lorem."
@@ -16,9 +17,7 @@ class SiteGenerator(object):
     def generate(self, site_path):
         self.content_path = 'content'
         self.site_path = os.path.expanduser(site_path)
-        if not os.path.exists(self.site_path):
-            os.mkdir(self.site_path)
-        clear_dir(self.site_path)
+        ensure_clear_dir(self.site_path)
         
         # copy static dir:
         self.static_dir = os.path.join(os.path.dirname(__file__), 'static')
@@ -30,6 +29,8 @@ class SiteGenerator(object):
         self.assets_map = {}
         
         self.create_index()
+        
+        create_detail_pages(self)
     
     def include_asset(self, path):
         if path not in self.assets_map:

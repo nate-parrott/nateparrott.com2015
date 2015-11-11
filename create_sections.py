@@ -1,13 +1,15 @@
 import os
-from util import all_child_dir_paths, render_naked_markdown
+from util import all_child_dir_paths, render_naked_markdown, link_assets, sanitize_name, kill_links
 from bs4 import BeautifulSoup
 import markdown
 import random
 import json
+from dominant_colors import ui_colors
 
 def create_sections(gen):
+    order = ['flashlight', 'gerbil', 'aamoji', 'hackatbrown', 'squawk', 'brown apps', 'thisdayinhistory', 'swiftdial', 'instagrade', 'r2']
     project_items = create_project_items(gen)
-    random.shuffle(project_items)
+    project_items.sort(key=lambda x: order.index(x['name']) if x['name'] in order else 99999)
     about = [item for item in project_items if item['name'] == 'about'][0]
     project_items.remove(about)
     project_items = [about] + project_items
@@ -20,22 +22,35 @@ def create_project_items(gen):
 
 def create_project_item(path, gen):
     def render_md(name):
-        md = open(os.path.join(path, 'preview.markdown')).read()
+        md = open(os.path.join(path, name)).read()
         html = markdown.markdown(md)
         return link_assets(html, path, gen)
     
     data_path = os.path.join(path, 'data.json')
     data = json.load(open(data_path)) if os.path.exists(data_path) else {}
     
+    preview_html = render_md('preview.markdown')
+    
     d = {
-        "preview_html": render_md('preview.markdown'),
+        "preview_html": preview_html,
+        "preview_html_without_links": kill_links(preview_html),
         "content_html": render_md('content.markdown'),
         "name": path.split('/')[-1],
-        "classes": u" ".join(data.get('classes', []))
+        "classes": u" ".join(data.get('classes', [])),
+        "title": u"".join(map(unicode, BeautifulSoup(preview_html, 'lxml').find('h1').contents)),
+        "link": data.get("link")
     }
+        
     tile_path = os.path.join(path, 'tile.png')
     if os.path.exists(tile_path):
+        colors = ui_colors(tile_path)
+        
+        d['project_css'] = "<style>.header{ background-color: BG; color: COLOR; } .project_content a:link, .project_content a:visited { color: COLOR } </style>".replace('COLOR', colors['text']).replace('BG', colors['background'])
+        
         d['style'] = u"background-image: url({0})".format(gen.include_asset(tile_path))
+        
+        
+    d['url'] = '/projects/' + sanitize_name(d['name']) + '.html'
     return d
 
 def find_first_image_url(html):
@@ -45,16 +60,3 @@ def find_first_image_url(html):
         return img.get('src')
     return ""
 
-def link_assets(html, path, gen):
-    b = BeautifulSoup(html, 'lxml')
-    for img in b.find_all('img'):
-        if img.get('src') and '/' not in img['src']:
-            asset_path = os.path.join(path, img['src'])
-            if os.path.exists(asset_path):
-                img['src'] = gen.include_asset(asset_path)
-            else:
-                print "Asset missing:", asset_path
-    return extract_body_from_soup(b)
-
-def extract_body_from_soup(soup):
-    return u"\n".join(map(unicode, soup.find('body').contents))

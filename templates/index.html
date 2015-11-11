@@ -21,9 +21,9 @@
 	{% for section in sections %}
 	<div class='section'>
 		{% for item in section %}
-			<div class="item {{ item['classes'] }}" style="{{ item['style'] }}">
-				{{ item.preview_html | safe }}
-			</div>
+			<a href="{{ item['url'] }}" class="item {{ item['classes'] }}" style="{{ item['style'] }}">
+				{{ item.preview_html_without_links | safe }}
+			</a>
 		{% endfor %}
 	</div>
 	{% endfor %}
