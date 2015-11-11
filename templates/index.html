@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block head %}
+{{ super() }}
+<title>Nate Parrott</title>
+<script src='http://cdnjs.cloudflare.com/ajax/libs/masonry/3.3.2/masonry.pkgd.min.js'></script>
+{% endblock %}
+
+{% block body %}
+
+<div id='header'>
+	<h1>Nate Parrott</h1>
+	<p id='links'>
+			<a href='https://twitter.com/nateparrott'><span class='fa fa-twitter'></span></a>
+			<a href='https://github.com/nate-parrott'><span class='fa fa-github'></span></a>
+			<a href='mailto:nate@nateparrott.com'><span class='fa fa-envelope'></span></a>
+	</p>
+</div>
+
+<div id='sections'>
+	{% for section in sections %}
+	<div class='section'>
+		{% for item in section %}
+			<div class="item {{ item['classes'] }}" style="{{ item['style'] }}">
+				{{ item.preview_html | safe }}
+			</div>
+		{% endfor %}
+	</div>
+	{% endfor %}
+</div>
+
+{% endblock %}

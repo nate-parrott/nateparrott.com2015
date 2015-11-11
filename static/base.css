@@ -1,0 +1,127 @@
+@import url(https://fonts.googleapis.com/css?family=Permanent+Marker);
+
+body {
+	font-family: sans-serif;
+	line-height: 1.5;
+	margin-top: 2em;
+	margin-bottom: 2em;
+}
+
+.section {
+	width: 260px;
+}
+
+@media screen and (min-width: 600px) {
+	.section {
+		width: 515px;
+	}
+}
+
+@media screen and (min-width: 820px) {
+	.section {
+		width: 775px;
+	}
+}
+
+.section {
+	  display: -webkit-box;      /* OLD - iOS 6-, Safari 3.1-6 */
+	  display: -moz-box;         /* OLD - Firefox 19- (buggy but mostly works) */
+	  display: -ms-flexbox;      /* TWEENER - IE 10 */
+	  display: -webkit-flex;     /* NEW - Chrome */
+	  display: flex;             /* NEW, Spec - Opera 12.1, Firefox 20+ */
+	  flex-wrap: wrap;
+	  justify-content: flex-start;
+	  margin-left: auto;
+	  margin-right: auto;
+}
+
+.item {
+	margin: 3px;
+	box-sizing: border-box;
+	font-weight: normal;
+	/*margin: 5px;*/
+	width: 250px;
+	height: 250px;
+	/*display: inline-block;*/
+	position: relative;
+	background-size: cover;
+}
+
+.item *:not(h1) {
+	display: none;
+}
+
+.item h1 {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+	box-sizing: border-box;
+	margin: 0;
+	padding: 6px;
+	/*padding-top: 20px;*/
+	font-size: small;
+	text-align: left;
+	text-transform: uppercase;
+	color: white;
+}
+
+.section {
+	margin-top: 6px;
+	margin-bottom: 6px;
+}
+
+/*.zebra-tile h1 {
+	text-shadow: -1px 1px 0px rgba(0,0,0,0.5);
+}
+
+.light-tile h1 {
+	color: black;
+}*/
+
+.zebra-tile h1, .light-tile h1 {
+	/*background: linear-gradient(rgba(0,0,0,0), rgba(0,0,0,0.3));*/
+	background-color: rgba(20,20,20,0.6);
+}
+
+.section:first-child h1 {
+	
+}
+
+#header {
+	text-align: center;
+}
+
+#links {
+	margin-top: 0;
+}
+
+#links a:link, #links a:visited {
+	color: inherit;
+	display: inline-block;
+	margin: 4px;
+	opacity: 0.5;
+}
+
+#links a:hover {
+	opacity: 1;
+}
+
+#header h1 {
+	font-size: 60px;
+	transform: rotate(-2deg);
+	font-family: "Permanent Marker";
+	margin-bottom: 0;
+}
+
+@media screen and (max-width: 600px) {
+	#header h1 {
+		font-size: 30px;
+	}
+}
+
+@media screen and (max-width: 450px) {
+	#header h1 {
+		font-size: 20px;
+	}
+}
