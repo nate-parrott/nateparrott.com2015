@@ -23,7 +23,7 @@ def create_project_items(gen):
 def create_project_item(path, gen):
     def render_md(name, asset_filter=None):
         md = open(os.path.join(path, name)).read()
-        html = markdown.markdown(md)
+        html = markdown.markdown(md.decode('utf-8'))
         return link_assets(html, path, gen, asset_filter=asset_filter)
     
     data_path = os.path.join(path, 'data.json')
