@@ -1,0 +1,43 @@
+.back, .link {
+	font-weight: bold;
+	color: inherit;
+	text-decoration: none;
+	text-transform: uppercase;
+	font-size: small;
+}
+
+.back:hover {
+	opacity: 0.5;
+}
+
+.header {
+	padding-top: 1em;
+	padding-bottom: 1em;
+}
+
+.header > div, .project_content {
+	max-width: 800px;
+	width: 90%;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.header h1 {
+	font-weight: bold;
+	text-transform: uppercase;
+	margin-top: 2em;
+	font-size: 40px;
+	margin-bottom: 0;
+}
+
+@media screen and (min-width: 600px) {
+	.header h1 {
+		font-size: 60px;
+	}
+}
+
+.project_content img {
+	display: block;
+	max-width: 100%;
+}
+

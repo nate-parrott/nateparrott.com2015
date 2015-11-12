@@ -3,8 +3,7 @@
 body {
 	font-family: sans-serif;
 	line-height: 1.5;
-	margin-top: 2em;
-	margin-bottom: 2em;
+	margin: 0;
 }
 
 .section {
@@ -45,6 +44,9 @@ body {
 	/*display: inline-block;*/
 	position: relative;
 	background-size: cover;
+	display: block;
+	text-decoration: none;
+	color: inherit;
 }
 
 .item *:not(h1) {
@@ -81,7 +83,7 @@ body {
 
 .zebra-tile h1, .light-tile h1 {
 	/*background: linear-gradient(rgba(0,0,0,0), rgba(0,0,0,0.3));*/
-	background-color: rgba(20,20,20,0.6);
+	background-color: rgba(20,20,20,0.35);
 }
 
 .section:first-child h1 {
@@ -110,8 +112,9 @@ body {
 #header h1 {
 	font-size: 60px;
 	transform: rotate(-2deg);
-	font-family: "Permanent Marker";
+	font-family: "Permanent Marker", sans-serif;
 	margin-bottom: 0;
+	display: inline-block;
 }
 
 @media screen and (max-width: 600px) {
