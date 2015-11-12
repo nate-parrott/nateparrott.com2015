@@ -21,19 +21,21 @@ def create_project_items(gen):
     return [i for i in items if i != None]
 
 def create_project_item(path, gen):
-    def render_md(name):
+    def render_md(name, asset_filter=None):
         md = open(os.path.join(path, name)).read()
         html = markdown.markdown(md)
-        return link_assets(html, path, gen)
+        return link_assets(html, path, gen, asset_filter=asset_filter)
     
     data_path = os.path.join(path, 'data.json')
     data = json.load(open(data_path)) if os.path.exists(data_path) else {}
     
     preview_html = render_md('preview.markdown')
     
+    from crop import SquareCropAssetFilter
+    tile_filter = SquareCropAssetFilter(size=500)
     d = {
         "preview_html": preview_html,
-        "preview_html_without_links": kill_links(preview_html),
+        "preview_html_for_tile": kill_links(render_md('preview.markdown', asset_filter=tile_filter)),
         "content_html": render_md('content.markdown'),
         "name": path.split('/')[-1],
         "classes": u" ".join(data.get('classes', [])),

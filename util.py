@@ -37,13 +37,13 @@ def sanitize_name(name):
     name = u''.join([c for c in name if c in allowed])
     return name
 
-def link_assets(html, path, gen):
+def link_assets(html, path, gen, asset_filter=None):
     b = BeautifulSoup(html, 'lxml')
     for img in b.find_all('img'):
         if img.get('src') and '/' not in img['src']:
             asset_path = os.path.join(path, img['src'])
             if os.path.exists(asset_path):
-                img['src'] = gen.include_asset(asset_path)
+                img['src'] = gen.include_asset(asset_path, filter=asset_filter)
             else:
                 print "Asset missing:", asset_path
     return extract_body_from_soup(b)

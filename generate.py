@@ -32,13 +32,17 @@ class SiteGenerator(object):
         
         create_detail_pages(self)
     
-    def include_asset(self, path):
-        if path not in self.assets_map:
+    def include_asset(self, path, filter=None):
+        key = path + ('-' + filter.id() if filter else "")
+        if key not in self.assets_map:
             _, ext = os.path.splitext(path)
+            if filter and filter.ext(): ext = filter.ext()
             asset_path = os.path.join(self.assets_dir, str(len(self.assets_map)) + ext)
-            shutil.copy(path, asset_path)
-            self.assets_map[path] = asset_path
-        return '/' + create_relative_path(self.assets_map[path], self.site_path)
+            data = open(path).read()
+            if filter: data = filter.filter(data)
+            open(asset_path, "w").write(data)
+            self.assets_map[key] = asset_path
+        return '/' + create_relative_path(self.assets_map[key], self.site_path)
     
     def create_index(self):
         # write the index:
@@ -47,6 +51,13 @@ class SiteGenerator(object):
         }
         open(os.path.join(self.site_path, 'index.html'), 'w').write(template("index.html", v).encode('utf-8'))
     
-    
+class AssetFilter(object):
+    def id(self):
+        return ""
+    def ext(self):
+        return None
+    def filter(self, data):
+        return data
+
 if __name__ == '__main__':
     SiteGenerator().generate('~/Desktop/site')

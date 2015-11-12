@@ -114,6 +114,7 @@ body {
 	transform: rotate(-2deg);
 	font-family: "Permanent Marker", sans-serif;
 	margin-bottom: 0;
+	display: inline-block;
 }
 
 @media screen and (max-width: 600px) {

@@ -22,7 +22,7 @@
 	<div class='section'>
 		{% for item in section %}
 			<a href="{{ item['url'] }}" class="item {{ item['classes'] }}" style="{{ item['style'] }}">
-				{{ item.preview_html_without_links | safe }}
+				{{ item.preview_html_for_tile | safe }}
 			</a>
 		{% endfor %}
 	</div>
