@@ -1,3 +1,4 @@
 ![App screenshot](aboutface.png)
 
-![App icon](icon.png)
+An iOS app for finding anagrams of any word.
+

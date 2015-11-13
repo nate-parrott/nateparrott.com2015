@@ -1,3 +1,3 @@
 # R2
 
-LOREM IPSUM
+A simple Reddit browser for iPhone and iPad.

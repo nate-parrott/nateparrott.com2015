@@ -1,3 +1,3 @@
 # Swiftdial
 
-LOREM IPSUM
+A fast dialer based on machine learning.

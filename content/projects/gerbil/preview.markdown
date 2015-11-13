@@ -1,3 +1,3 @@
 # Gerbil
 
-LOREM IPSUM.
+Like a mouse, but with your phone.
