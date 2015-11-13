@@ -41,6 +41,7 @@ class SiteGenerator(object):
             data = open(path).read()
             if filter: data = filter.filter(data)
             open(asset_path, "w").write(data)
+            if filter: print asset_path
             self.assets_map[key] = asset_path
         return '/' + create_relative_path(self.assets_map[key], self.site_path)
     

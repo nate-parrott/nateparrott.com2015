@@ -14,12 +14,12 @@ def crop_square(img, size):
 
 class ImageAssetFilter(AssetFilter):
     def id(self): return 'img'
-    def ext(self): return '.png'
+    def ext(self): return '.jpg'
     def filter(self, data):
-        img = Image.load(StringIO(data))
+        img = Image.open(StringIO(data))
         img = self.filter_image(img)
         io = StringIO()
-        img.save(io, format='PNG')
+        img.save(io, format='JPEG')
         data = io.getvalue()
         io.close()
         return data
@@ -27,7 +27,7 @@ class ImageAssetFilter(AssetFilter):
     def filter_image(self, img):
         return img
 
-class SquareCropAssetFilter(AssetFilter):
+class SquareCropAssetFilter(ImageAssetFilter):
     def __init__(self, size):
         self.size = size
     def id(self):

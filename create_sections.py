@@ -31,25 +31,25 @@ def create_project_item(path, gen):
     
     preview_html = render_md('preview.markdown')
     
-    from crop import SquareCropAssetFilter
-    tile_filter = SquareCropAssetFilter(size=500)
     d = {
         "preview_html": preview_html,
-        "preview_html_for_tile": kill_links(render_md('preview.markdown', asset_filter=tile_filter)),
+        "preview_html_for_tile": kill_links(render_md('preview.markdown')),
         "content_html": render_md('content.markdown'),
         "name": path.split('/')[-1],
         "classes": u" ".join(data.get('classes', [])),
         "title": u"".join(map(unicode, BeautifulSoup(preview_html, 'lxml').find('h1').contents)),
         "link": data.get("link")
     }
-        
+    
+    from crop import SquareCropAssetFilter
+    tile_filter = SquareCropAssetFilter(size=500)
     tile_path = os.path.join(path, 'tile.png')
     if os.path.exists(tile_path):
         colors = ui_colors(tile_path)
         
         d['project_css'] = "<style>.header{ background-color: BG; color: COLOR; } .project_content a:link, .project_content a:visited { color: COLOR } </style>".replace('COLOR', colors['text']).replace('BG', colors['background'])
         
-        d['style'] = u"background-image: url({0})".format(gen.include_asset(tile_path))
+        d['style'] = u"background-image: url({0})".format(gen.include_asset(tile_path, filter=tile_filter))
         
         
     d['url'] = '/projects/' + sanitize_name(d['name']) + '.html'
