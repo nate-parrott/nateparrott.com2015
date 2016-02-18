@@ -22,7 +22,10 @@ def create_project_items(gen):
 
 def create_project_item(path, gen):
     def render_md(name, asset_filter=None):
-        md = open(os.path.join(path, name)).read()
+        p = os.path.join(path, name)
+        if not os.path.exists(p):
+            return ""
+        md = open(p).read()
         html = markdown.markdown(md.decode('utf-8'))
         return link_assets(html, path, gen, asset_filter=asset_filter)
     
@@ -51,8 +54,10 @@ def create_project_item(path, gen):
         
         d['style'] = u"background-image: url({0})".format(gen.include_asset(tile_path, filter=tile_filter))
         
-        
-    d['url'] = '/projects/' + sanitize_name(d['name']) + '.html'
+    if d['link']:
+        d['url'] = d['link']
+    else:
+        d['url'] = '/projects/' + sanitize_name(d['name']) + '.html'
     return d
 
 def find_first_image_url(html):

@@ -17,6 +17,7 @@ class SiteGenerator(object):
     def generate(self, site_path):
         self.content_path = 'content'
         self.site_path = os.path.expanduser(site_path)
+        print self.site_path
         ensure_clear_dir(self.site_path)
         
         # copy static dir:
