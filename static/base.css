@@ -48,8 +48,40 @@ body {
 	color: inherit;
 }
 
-.item *:not(h1) {
-	display: none;
+.item:before {
+	opacity: 0;
+	transition: opacity 0.15s ease-in-out;
+	content: " ";
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	z-index: 10;
+	background-color: black;
+}
+.item:hover:before {
+	opacity: 0.7;
+}
+
+.item p {
+	transition: opacity 0.15s ease-in-out, transform 0.15s ease-in-out;
+	transform: translate(0px, 20px);
+	opacity: 0;
+	z-index: 11;
+	color: white;
+	position: absolute;
+	left: 7px;
+	top: 7px;
+	right: 7px;
+	bottom: 7px;
+	margin: 0;
+	font-weight: bold;
+	font-size: small;
+}
+.item:hover p {
+	opacity: 1;
+	transform: translate(0);
 }
 
 .item h1 {
@@ -65,6 +97,7 @@ body {
 	text-align: left;
 	text-transform: uppercase;
 	color: white;
+	z-index: 12;
 }
 
 .section {
