@@ -39,10 +39,12 @@ function init() {
 	
 	if (useAccel()) {
 		controls = new THREE.DeviceOrientationControls(camera);
+		setupTapRec();
 	} else {
 		controls = new THREE.OrbitControls( camera, renderer.domElement );
 		controls.enableDamping = true;
 		controls.dampingFactor = 0.25;
+		setupClickRec();
 	}
 	//controls.addEventListener( 'change', render ); // add this only if there is no animation loop (requestAnimationFrame)
 	// controls.enableZoom = false;
@@ -56,7 +58,7 @@ function init() {
 	// createContent();
 	// addGalleryImage('viet.jpg', 180);
 	createText();
-	
+		
 	window.addEventListener( 'resize', onWindowResize, false );
 
 }
@@ -102,14 +104,14 @@ function setSelectedObject(obj){
 
 function createSelectionBackgroundFromObject(obj) {
  	var geometry = new THREE.PlaneGeometry( 2, 2);
- 	var material = new THREE.MeshBasicMaterial( {color: 0xffffff, side: THREE.DoubleSide} );
+ 	var material = new THREE.MeshBasicMaterial( {color: 0x111111, side: THREE.DoubleSide} );
 	var mesh = new THREE.Mesh(geometry, material);
 	// var pos = THREE.Vector3.setFromMatrixPosition( obj.matrixWorld )
 	// mesh.position.copy(pos);
 	mesh.position.setFromMatrixPosition(obj.matrixWorld);
 	mesh.rotation.set(obj.rotation.x, obj.rotation.y, obj.rotation.z);
 	mesh.translateZ(-1);
-	mesh.scale.set(1.5, 1.5, 1.5);
+	mesh.scale.set(1.3, 1.3, 1.3);
 	return mesh;
 }
 
@@ -167,7 +169,7 @@ function createLogo() {
 	);
 }*/
 
-function addGalleryImage(url, angle, vertAngle) {
+function addGalleryImage(url, angle, vertAngle, link) {
 	var loader = new THREE.TextureLoader();
 
 	// load a resource
@@ -190,6 +192,7 @@ function addGalleryImage(url, angle, vertAngle) {
 		 	plane.translateZ(-5);
 		 	scene.add( plane );
 			plane.selectable = true;
+			plane.link = link
 		},
 		// Function called when download progresses
 		function ( xhr ) {
@@ -239,6 +242,45 @@ function _data_callback(data) {
 		var nCols = Math.ceil(items.length/2);
 		var url = item.style.split('(')[1].split(')')[0];
 		var stride = 360 / nCols;
-		addGalleryImage(url, (col + row / 2) * stride, row * 40 - 20);
+		addGalleryImage(url, (col + row / 2) * stride, row * 40 - 20, item.url);
+	}
+}
+
+function setupTapRec() {
+	var pos = {x: 0, y: 0};
+	var cancelTap = false;
+	document.getElementById('container').addEventListener('touchstart', function(e) {
+		pos = {x: e.touches[0].pageX, y: e.touches[0].pageY};
+		cancelTap = false;
+	})
+	document.getElementById('container').addEventListener('touchmove', function(e) {
+		if (Math.abs(pos.x - e.touches[0].pageX) > 3 || Math.abs(pos.y - e.touches[0].pageY) > 3) {
+			cancelTap = true;
+		}
+		pos = {x: e.touches[0].pageX, y: e.touches[0].pageY};
+	})
+	document.getElementById('container').addEventListener('touchend', function(e) {
+		if (!cancelTap) {
+			tapped();
+		}
+	})
+}
+
+function setupClickRec() {
+	var cancelled = false;
+	document.getElementById('container').addEventListener('mousedown', function(e) {
+		cancelled = false;
+	});
+	document.getElementById('container').addEventListener('mousemove', function(e) {
+		cancelled = true;
+	});
+	document.getElementById('container').addEventListener('mouseup', function(e) {
+		if (!cancelled) tapped()
+	})
+}
+
+function tapped() {
+	if (_selectedObject && _selectedObject.link) {
+		location.href = _selectedObject.link;
 	}
 }
