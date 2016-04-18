@@ -19,7 +19,7 @@ class SiteGenerator(object):
         self.site_path = os.path.expanduser(site_path)
         print self.site_path
         ensure_clear_dir(self.site_path)
-        
+                
         # copy static dir:
         self.static_dir = os.path.join(os.path.dirname(__file__), 'static')
         shutil.copytree(self.static_dir, os.path.join(self.site_path, 'static'))
@@ -29,8 +29,10 @@ class SiteGenerator(object):
         os.mkdir(self.assets_dir)
         self.assets_map = {}
         
-        self.create_index()
+        self.sections = create_sections(self)
         
+        self.create_index()
+        self.create_data_js()
         create_detail_pages(self)
     
     def include_asset(self, path, filter=None):
@@ -49,9 +51,13 @@ class SiteGenerator(object):
     def create_index(self):
         # write the index:
         v = {
-            "sections": create_sections(self)
+            "sections": self.sections
         }
         open(os.path.join(self.site_path, 'index.html'), 'w').write(template("index.html", v).encode('utf-8'))
+    
+    def create_data_js(self):
+        t = "_data_callback(" + json.dumps({"sections": self.sections}) + ")"
+        open(os.path.join(self.site_path, 'data.js'), 'w').write(t)
     
 class AssetFilter(object):
     def id(self):
