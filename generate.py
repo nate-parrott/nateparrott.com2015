@@ -24,6 +24,10 @@ class SiteGenerator(object):
         self.static_dir = os.path.join(os.path.dirname(__file__), 'static')
         shutil.copytree(self.static_dir, os.path.join(self.site_path, 'static'))
         
+        # copy vr:
+        vr_dir = os.path.join(os.path.dirname(__file__), 'vr')
+        shutil.copytree(vr_dir, os.path.join(self.site_path, 'vr'))
+        
         # create assets dir:
         self.assets_dir = os.path.join(self.site_path, 'assets')
         os.mkdir(self.assets_dir)
