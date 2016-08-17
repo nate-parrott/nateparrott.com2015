@@ -7,7 +7,7 @@ import json
 from dominant_colors import ui_colors
 
 def create_sections(gen):
-    order = ['gerbil', 'content', 'flashlight', 'table', 'hack-at-brown', 'aamoji', 'squawk', 'brown apps', 'thisdayinhistory', 'swiftdial', 'instagrade', 'r2']
+    order = ['hack-at-brown', 'flashlight', 'gerbil', 'instagrade', 'content', 'table', 'aamoji', 'squawk']
     project_items = create_project_items(gen)
     project_items.sort(key=lambda x: order.index(x['name']) if x['name'] in order else 99999)
     about = [item for item in project_items if item['name'] == 'about'][0]

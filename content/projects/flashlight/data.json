@@ -1,3 +1,4 @@
 {
-	"link": "http://flashlight.nateparrott.com"
+	"link": "http://flashlight.nateparrott.com",
+	"classes": ["light-tile"]
 }
