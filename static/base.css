@@ -115,7 +115,7 @@ body {
 
 .zebra-tile h1, .light-tile h1 {
 	/*background: linear-gradient(rgba(0,0,0,0), rgba(0,0,0,0.3));*/
-	background-color: rgba(20,20,20,0.35);
+	background-color: rgba(20,20,20,0.42);
 }
 
 .section:first-child h1 {
